@@ -134,8 +134,10 @@ else:
     if uploaded_files and st.sidebar.button("Convert Files"):
         # audio = convert_files_to_wav(uploaded_files) #COMMENTED 
         is_audio= is_wave_file(uploaded_files)
+        audio=uploaded_files
         if is_audio==False:
             st.warning(st.markdown("# PLEASE ONLY UPLOAD WAV FILES"))
+            
             
 
 # Option to transcribe and process audio
