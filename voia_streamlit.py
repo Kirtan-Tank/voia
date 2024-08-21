@@ -1,7 +1,7 @@
 import streamlit as st
 import openai
 import numpy as np
-import sounddevice as sd
+# import sounddevice as sd
 #from datetime import datetime
 from io import BytesIO
 import subprocess
@@ -13,24 +13,24 @@ openai.api_key = openai_voia_key
 
 # Function to record audio from the microphone using sounddevice
 def load_audio_from_mic(threshold=500, silence_limit=7, duration=10, rate=44100, channels=1):
-    st.write("Recording... Press 'Stop Recording' to finish.")
+    # st.write("Recording... Press 'Stop Recording' to finish.")
     
-    # Record audio for the specified duration
-    audio = sd.rec(int(duration * rate), samplerate=rate, channels=channels, dtype='int16')
-    sd.wait()
+    # # Record audio for the specified duration
+    # audio = sd.rec(int(duration * rate), samplerate=rate, channels=channels, dtype='int16')
+    # sd.wait()
 
-    # Convert the recorded audio to bytes
-    recorded_audio = audio.tobytes()
+    # # Convert the recorded audio to bytes
+    # recorded_audio = audio.tobytes()
 
-    # Check for silence
-    np_audio = np.frombuffer(recorded_audio, dtype=np.int16)
-    volume = np.abs(np_audio).mean()
+    # # Check for silence
+    # np_audio = np.frombuffer(recorded_audio, dtype=np.int16)
+    # volume = np.abs(np_audio).mean()
 
-    if volume < threshold:
-        st.write("Silence detected, stopping recording.")
-    else:
-        st.write("Recording stopped.")
-
+    # if volume < threshold:
+    #     st.write("Silence detected, stopping recording.")
+    # else:
+    #     st.write("Recording stopped.")
+    recorded_audio = "SORRY, RECORDNIG AUDIO IS NOT SUPPORTED ON THIS DEPLOYMENT PLATFORM"
     return recorded_audio
 
 # Function to convert files in a directory to WAV format
