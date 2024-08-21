@@ -1,4 +1,4 @@
 openai==1.40.8
 numpy==2.1.0
 streamlit==1.37.1
-git+https://github.com/spatialaudio/python-sounddevice.git@master#egg=sounddevice
+# git+https://github.com/spatialaudio/python-sounddevice.git@master#egg=sounddevice
