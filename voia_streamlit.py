@@ -1,7 +1,6 @@
 import streamlit as st
 import openai
 import numpy as np
-# import sounddevice as sd
 from io import BytesIO
 import subprocess
 import os
@@ -29,33 +28,18 @@ def load_audio_from_mic(threshold=500, silence_limit=7, duration=10, rate=44100,
     #     st.write("Silence detected, stopping recording.")
     # else:
     #     st.write("Recording stopped.")
-    recorded_audio = "SORRY, RECORDING AUDIO IS NOT SUPPORTED ON THIS DEPLOYMENT PLATFORM"
+    recorded_audio = "SORRY, RECORDNIG AUDIO IS NOT SUPPORTED ON THIS DEPLOYMENT PLATFORM"
     return recorded_audio
 
-# Function to convert uploaded files to WAV format
-def convert_uploaded_files_to_wav(uploaded_files, save=False):
+# Function to convert files to WAV format
+def convert_files_to_wav(uploaded_files):
     converted_files = []
-    
     for uploaded_file in uploaded_files:
-        if save:
-            # Save the file to a virtual directory in memory
-            filename_without_ext = os.path.splitext(uploaded_file.name)[0]
-            output_file = f"{filename_without_ext}.wav"
-            with open(output_file, "wb") as f:
-                f.write(uploaded_file.getbuffer())
-
-            # Convert to WAV using ffmpeg
-            try:
-                subprocess.run(['ffmpeg', '-i', uploaded_file.name, output_file], check=True)
-                converted_files.append(output_file)
-            except subprocess.CalledProcessError as e:
-                st.write(f"Error converting {uploaded_file.name} to WAV: {e}")
-                converted_files.append(None)
-        else:
+        with BytesIO(uploaded_file.read()) as input_file:
             try:
                 result = subprocess.run(
-                    ['ffmpeg', '-i', '-', '-f', 'wav', 'pipe:1'],
-                    input=uploaded_file.getbuffer(),
+                    ['ffmpeg', '-i', 'pipe:0', '-f', 'wav', 'pipe:1'],
+                    input=input_file.read(),
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE,
                     check=True
@@ -105,45 +89,40 @@ prompt_template = """
     1. Analyze and repair the text to make it more sensible 
     2. Translate the given text into English is mandatory
     3. Analyze the text and decide the type of task by using keywords
-    4. Give a summary of what the user wants to do and extract key entities
-    5. Set extracted information in the given RESPONSE FORMAT
+    4. Give a summary what user wants to do and extracting key entities
+    5. Set extracted information in given RESPONSE FORMAT
     6. MAKE SURE THE RESPONSE IS IN ENGLISH ONLY
 
     RESPONSE FORMAT - DICTIONARY
     It should ONLY include below information:
     - 'type of task': Identified task from TASKS,
     - 'extracted entities': Important entities,
-    - 'summary': summary of what the user wants to do
+    - 'summary': summary of what user wants to do
     
     Here is the text {text}
     """
 
 # Streamlit UI
-st.title("Voice Assistant Task Processor")
+st.sidebar.title("Voice Assistant Task Processor")
 
-# Move the buttons to the sidebar
-with st.sidebar:
-    mic_input = st.checkbox("Record from microphone")
-    save_recording_status = st.checkbox("Save recording")
+# Option to record from mic
+mic_input = st.sidebar.checkbox("Record from microphone")
+save_recording_status = st.sidebar.checkbox("Save recording")
 
-    # Upload files via uploader instead of directory path
-    if not mic_input:
-        uploaded_files = st.file_uploader("Upload Files", accept_multiple_files=True)
-        clear_files = st.button("Clear Uploaded Files")
+# Option to upload files
+if not mic_input:
+    uploaded_files = st.sidebar.file_uploader("Upload files", accept_multiple_files=True, type=None)
 
-        if clear_files:
-            uploaded_files = []
-
-# Adjust visibility based on the if-else logic
+# Button to start recording or convert files
 if mic_input:
     if st.sidebar.button("Press and hold to record"):
         audio = load_audio_from_mic(save_recording=save_recording_status)
 else:
-    if st.sidebar.button("Convert Files"):
-        audio = convert_uploaded_files_to_wav(uploaded_files=uploaded_files, save=save_recording_status)
+    if uploaded_files and st.sidebar.button("Convert Files"):
+        audio = convert_files_to_wav(uploaded_files)
 
 # Option to transcribe and process audio
-if st.button("Transcribe and Process"):
+if st.sidebar.button("Transcribe and Process"):
     if audio:
         transcription = openai.Audio.transcribe("whisper-1", audio)
         text = transcription['text']
