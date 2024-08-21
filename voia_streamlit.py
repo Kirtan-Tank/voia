@@ -101,6 +101,19 @@ prompt_template = """
     
     Here is the text {text}
     """
+#TEMPORARY FUNCTION
+def is_wav_file(file):
+    """Check if a given file is a WAV file based on its magic number."""
+    try:
+        # Read the first 12 bytes (RIFF header)
+        header = file.read(12)
+        file.seek(0)  # Reset file pointer after reading
+
+        # Check if the file starts with 'RIFF' and has 'WAVE' as the format identifier
+        return header.startswith(b'RIFF') and header[8:12] == b'WAVE'
+    except Exception as e:
+        print(f"Error checking WAV file: {e}")
+        return False
 
 # Streamlit UI
 st.sidebar.title("Voice Assistant Task Processor")
@@ -119,7 +132,11 @@ if mic_input:
         audio = load_audio_from_mic(save_recording=save_recording_status)
 else:
     if uploaded_files and st.sidebar.button("Convert Files"):
-        audio = convert_files_to_wav(uploaded_files)
+        # audio = convert_files_to_wav(uploaded_files) #COMMENTED 
+        is_audio= is_wave_file(uploaded_files)
+        if is_audio=False:
+            st.markdown("# PLEASE ONLY UPLOAD WAV FILES")
+            
 
 # Option to transcribe and process audio
 if st.sidebar.button("Transcribe and Process"):
