@@ -3,29 +3,56 @@ import openai
 import numpy as np
 from io import BytesIO
 import subprocess
+import os
 
 # Load API key from Streamlit secrets
 openai_voia_key = st.secrets["openai_voia_key"]
 openai.api_key = openai_voia_key
 
-# Function to record audio from the microphone (placeholder for unsupported platforms)
-def load_audio_from_mic(threshold=500, silence_limit=7, duration=10, rate=44100, channels=1):
-    recorded_audio = "SORRY, RECORDING AUDIO IS NOT SUPPORTED ON THIS DEPLOYMENT PLATFORM"
-    return recorded_audio
-
-# Function to check if a file is a WAV file based on its magic number
-def is_wav_file(file):
-    """Check if a given file is a WAV file based on its magic number."""
+# Function to detect if a file is WAV or MP3
+def is_wav_or_mp3(file):
+    """Check if a given file is a WAV or MP3 file based on its magic number."""
     try:
-        # Read the first 12 bytes (RIFF header)
         header = file.read(12)
         file.seek(0)  # Reset file pointer after reading
 
-        # Check if the file starts with 'RIFF' and has 'WAVE' as the format identifier
-        return header.startswith(b'RIFF') and header[8:12] == b'WAVE'
+        if header.startswith(b'RIFF') and header[8:12] == b'WAVE':
+            return "wav"
+        elif header[0:3] == b'ID3' or header.startswith(b'\xff\xfb'):
+            return "mp3"
+        else:
+            return None
     except Exception as e:
-        st.write(f"Error checking WAV file: {e}")
-        return False
+        st.write(f"Error checking file type: {e}")
+        return None
+
+# Function to convert files to WAV format
+def convert_files_to_wav(uploaded_files):
+    converted_files = []
+    for uploaded_file in uploaded_files:
+        file_type = is_wav_or_mp3(uploaded_file)
+
+        if file_type == "wav":
+            converted_files.append(uploaded_file.read())
+        elif file_type == "mp3":
+            with BytesIO(uploaded_file.read()) as input_file:
+                try:
+                    result = subprocess.run(
+                        ['ffmpeg', '-i', 'pipe:0', '-f', 'wav', 'pipe:1'],
+                        input=input_file.read(),
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
+                        check=True
+                    )
+                    converted_files.append(result.stdout)
+                except subprocess.CalledProcessError as e:
+                    st.write(f"Error converting {uploaded_file.name} to WAV: {e.stderr.decode()}")
+                    converted_files.append(None)
+        else:
+            st.warning(f"Unsupported file type for {uploaded_file.name}. Please upload WAV or MP3 files.")
+            converted_files.append(None)
+
+    return converted_files
 
 # Function to get GPT response
 def get_gpt_response(text, prompt_template, model="gpt-3.5-turbo-0125"):
@@ -89,25 +116,15 @@ save_recording_status = st.sidebar.checkbox("Save recording")
 if not mic_input:
     uploaded_files = st.sidebar.file_uploader("Upload files", accept_multiple_files=True, type=None)
 
-# Initialize audio variable
+# Automatically convert files if uploaded
 audio = None
-
-# Button to start recording or process uploaded files
-if mic_input:
-    if st.sidebar.button("Press and hold to record"):
-        audio = load_audio_from_mic()
-else:
-    if uploaded_files and st.sidebar.button("Convert Files"):
-        is_audio = is_wav_file(uploaded_files[0])  # Check if the first uploaded file is a WAV file
-        if not is_audio:
-            st.warning("# PLEASE ONLY UPLOAD WAV FILES")
-        else:
-            audio = uploaded_files[0].getvalue()  # Load the WAV file into memory
+if uploaded_files:
+    audio = convert_files_to_wav(uploaded_files)
 
 # Option to transcribe and process audio
 if st.sidebar.button("Transcribe and Process"):
     if audio:
-        transcription = openai.Audio.transcribe("whisper-1", audio)
+        transcription = openai.Audio.transcribe("whisper-1", audio[0])  # Only taking the first file for transcription
         text = transcription['text']
         response = get_gpt_response(text, prompt_template)
         st.write("### Processed Response")
