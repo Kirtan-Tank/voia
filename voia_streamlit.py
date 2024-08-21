@@ -135,7 +135,7 @@ else:
         # audio = convert_files_to_wav(uploaded_files) #COMMENTED 
         is_audio= is_wave_file(uploaded_files)
         if is_audio=False:
-            st.markdown("# PLEASE ONLY UPLOAD WAV FILES")
+            st.warning(st.markdown("# PLEASE ONLY UPLOAD WAV FILES"))
             
 
 # Option to transcribe and process audio
