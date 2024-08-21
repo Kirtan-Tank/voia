@@ -124,7 +124,7 @@ if uploaded_files:
 # Option to transcribe and process audio
 if st.sidebar.button("Transcribe and Process"):
     if audio:
-        transcription = openai.Audio.transcriptions.create("whisper-1", audio[0])  # Only taking the first file for transcription
+        transcription = openai.audio.transcriptions.create("whisper-1", audio[0])  # Only taking the first file for transcription
         text = transcription['text']
         response = get_gpt_response(text, prompt_template)
         st.write("### Processed Response")
