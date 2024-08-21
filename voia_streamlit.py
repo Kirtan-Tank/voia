@@ -1,8 +1,6 @@
 import streamlit as st
 import openai
 import numpy as np
-# import sounddevice as sd
-#from datetime import datetime
 from io import BytesIO
 import subprocess
 import os
@@ -11,67 +9,42 @@ import os
 openai_voia_key = st.secrets["openai_voia_key"]
 openai.api_key = openai_voia_key
 
-# Function to record audio from the microphone using sounddevice
+# Create a virtual folder in memory
+virtual_folder = {}
+
+# Function to record audio from the microphone
 def load_audio_from_mic(threshold=500, silence_limit=7, duration=10, rate=44100, channels=1):
-    # st.write("Recording... Press 'Stop Recording' to finish.")
-    
-    # # Record audio for the specified duration
-    # audio = sd.rec(int(duration * rate), samplerate=rate, channels=channels, dtype='int16')
-    # sd.wait()
-
-    # # Convert the recorded audio to bytes
-    # recorded_audio = audio.tobytes()
-
-    # # Check for silence
-    # np_audio = np.frombuffer(recorded_audio, dtype=np.int16)
-    # volume = np.abs(np_audio).mean()
-
-    # if volume < threshold:
-    #     st.write("Silence detected, stopping recording.")
-    # else:
-    #     st.write("Recording stopped.")
-    recorded_audio = "SORRY, RECORDNIG AUDIO IS NOT SUPPORTED ON THIS DEPLOYMENT PLATFORM"
+    recorded_audio = "SORRY, RECORDING AUDIO IS NOT SUPPORTED ON THIS DEPLOYMENT PLATFORM"
     return recorded_audio
 
-# Function to convert files in a directory to WAV format
-def convert_files_in_dir_to_wav(directory, save=False, output_dir=None):
-    if not os.path.isdir(directory):
-        st.write(f"Directory not found: {directory}")
-        return None
-
+# Function to convert files in a virtual directory to WAV format
+def convert_files_in_virtual_dir_to_wav(virtual_folder, save=False):
     converted_files = []
-    for filename in os.listdir(directory):
-        input_file = os.path.join(directory, filename)
-        
-        if os.path.isfile(input_file):
-            if save:
-                if output_dir is None:
-                    output_dir = os.path.dirname(input_file)
-    
-                filename_without_ext = os.path.splitext(os.path.basename(input_file))[0]
-                output_file = os.path.join(output_dir, f"{filename_without_ext}.wav")
-    
-                try:
-                    subprocess.run(['ffmpeg', '-i', input_file, output_file], check=True)
-                    converted_files.append(output_file)
-                except subprocess.CalledProcessError as e:
-                    st.write(f"Error converting {input_file} to WAV: {e}")
-                    converted_files.append(None)
-            else:
-                try:
-                    result = subprocess.run(
-                        ['ffmpeg', '-i', input_file, '-f', 'wav', 'pipe:1'],
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.PIPE,
-                        check=True
-                    )
-                    converted_files.append(result.stdout)
 
-                except subprocess.CalledProcessError as e:
-                    st.write(f"Error converting {input_file} to WAV: {e.stderr.decode()}")
-                    converted_files.append(None)
+    for filename, filedata in virtual_folder.items():
+        input_file = BytesIO(filedata)
+        if save:
+            filename_without_ext = os.path.splitext(filename)[0]
+            output_file = f"{filename_without_ext}.wav"
+            try:
+                subprocess.run(['ffmpeg', '-i', input_file, output_file], check=True)
+                converted_files.append(output_file)
+            except subprocess.CalledProcessError as e:
+                st.write(f"Error converting {filename} to WAV: {e}")
+                converted_files.append(None)
         else:
-            st.write(f"Skipping non-file item in directory: {input_file}")
+            try:
+                result = subprocess.run(
+                    ['ffmpeg', '-i', '-', '-f', 'wav', 'pipe:1'],
+                    input=filedata,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    check=True
+                )
+                converted_files.append(result.stdout)
+            except subprocess.CalledProcessError as e:
+                st.write(f"Error converting {filename} to WAV: {e.stderr.decode()}")
+                converted_files.append(None)
 
     return converted_files
 
@@ -129,25 +102,35 @@ prompt_template = """
 # Streamlit UI
 st.title("Voice Assistant Task Processor")
 
-# Option to record from mic
-mic_input = st.checkbox("Record from microphone")
-save_recording_status = st.checkbox("Save recording")
+# Move options to the sidebar
+st.sidebar.header("Options")
 
-# Option to convert files in directory
+# Option to record from mic
+mic_input = st.sidebar.checkbox("Record from microphone")
+save_recording_status = st.sidebar.checkbox("Save recording")
+
+# Option to upload files to the virtual folder
 if not mic_input:
-    source_path = st.text_input("Source Directory Path")
-    save_wav_files = st.checkbox("Save WAV files to directory")
+    uploaded_files = st.sidebar.file_uploader("Upload Files", accept_multiple_files=True)
+    if uploaded_files:
+        for uploaded_file in uploaded_files:
+            virtual_folder[uploaded_file.name] = uploaded_file.read()
+
+# Option to clear the virtual folder
+if st.sidebar.button("Clear Virtual Folder"):
+    virtual_folder.clear()
+    st.sidebar.write("Virtual folder cleared.")
 
 # Button to start recording or convert files
 if mic_input:
-    if st.button("Press and hold to record"):
+    if st.sidebar.button("Press and hold to record"):
         audio = load_audio_from_mic(save_recording=save_recording_status)
 else:
-    if st.button("Convert Files"):
-        audio = convert_files_in_dir_to_wav(directory=source_path, save=save_wav_files, output_dir=output_wav_dir)
+    if st.sidebar.button("Convert Files"):
+        audio = convert_files_in_virtual_dir_to_wav(virtual_folder, save=save_recording_status)
 
 # Option to transcribe and process audio
-if st.button("Transcribe and Process"):
+if st.sidebar.button("Transcribe and Process"):
     if audio:
         transcription = openai.Audio.transcribe("whisper-1", audio)
         text = transcription['text']
