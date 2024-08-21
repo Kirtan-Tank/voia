@@ -3,53 +3,29 @@ import openai
 import numpy as np
 from io import BytesIO
 import subprocess
-import os
 
 # Load API key from Streamlit secrets
 openai_voia_key = st.secrets["openai_voia_key"]
 openai.api_key = openai_voia_key
 
-# Function to record audio from the microphone using sounddevice
+# Function to record audio from the microphone (placeholder for unsupported platforms)
 def load_audio_from_mic(threshold=500, silence_limit=7, duration=10, rate=44100, channels=1):
-    # st.write("Recording... Press 'Stop Recording' to finish.")
-    
-    # # Record audio for the specified duration
-    # audio = sd.rec(int(duration * rate), samplerate=rate, channels=channels, dtype='int16')
-    # sd.wait()
-
-    # # Convert the recorded audio to bytes
-    # recorded_audio = audio.tobytes()
-
-    # # Check for silence
-    # np_audio = np.frombuffer(recorded_audio, dtype=np.int16)
-    # volume = np.abs(np_audio).mean()
-
-    # if volume < threshold:
-    #     st.write("Silence detected, stopping recording.")
-    # else:
-    #     st.write("Recording stopped.")
-    recorded_audio = "SORRY, RECORDNIG AUDIO IS NOT SUPPORTED ON THIS DEPLOYMENT PLATFORM"
+    recorded_audio = "SORRY, RECORDING AUDIO IS NOT SUPPORTED ON THIS DEPLOYMENT PLATFORM"
     return recorded_audio
 
-# Function to convert files to WAV format
-def convert_files_to_wav(uploaded_files):
-    converted_files = []
-    for uploaded_file in uploaded_files:
-        with BytesIO(uploaded_file.read()) as input_file:
-            try:
-                result = subprocess.run(
-                    ['ffmpeg', '-i', 'pipe:0', '-f', 'wav', 'pipe:1'],
-                    input=input_file.read(),
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
-                    check=True
-                )
-                converted_files.append(result.stdout)
-            except subprocess.CalledProcessError as e:
-                st.write(f"Error converting {uploaded_file.name} to WAV: {e.stderr.decode()}")
-                converted_files.append(None)
+# Function to check if a file is a WAV file based on its magic number
+def is_wav_file(file):
+    """Check if a given file is a WAV file based on its magic number."""
+    try:
+        # Read the first 12 bytes (RIFF header)
+        header = file.read(12)
+        file.seek(0)  # Reset file pointer after reading
 
-    return converted_files
+        # Check if the file starts with 'RIFF' and has 'WAVE' as the format identifier
+        return header.startswith(b'RIFF') and header[8:12] == b'WAVE'
+    except Exception as e:
+        st.write(f"Error checking WAV file: {e}")
+        return False
 
 # Function to get GPT response
 def get_gpt_response(text, prompt_template, model="gpt-3.5-turbo-0125"):
@@ -101,19 +77,6 @@ prompt_template = """
     
     Here is the text {text}
     """
-#TEMPORARY FUNCTION
-def is_wav_file(file):
-    """Check if a given file is a WAV file based on its magic number."""
-    try:
-        # Read the first 12 bytes (RIFF header)
-        header = file.read(12)
-        file.seek(0)  # Reset file pointer after reading
-
-        # Check if the file starts with 'RIFF' and has 'WAVE' as the format identifier
-        return header.startswith(b'RIFF') and header[8:12] == b'WAVE'
-    except Exception as e:
-        print(f"Error checking WAV file: {e}")
-        return False
 
 # Streamlit UI
 st.sidebar.title("Voice Assistant Task Processor")
@@ -126,19 +89,20 @@ save_recording_status = st.sidebar.checkbox("Save recording")
 if not mic_input:
     uploaded_files = st.sidebar.file_uploader("Upload files", accept_multiple_files=True, type=None)
 
-# Button to start recording or convert files
+# Initialize audio variable
+audio = None
+
+# Button to start recording or process uploaded files
 if mic_input:
     if st.sidebar.button("Press and hold to record"):
-        audio = load_audio_from_mic(save_recording=save_recording_status)
+        audio = load_audio_from_mic()
 else:
     if uploaded_files and st.sidebar.button("Convert Files"):
-        # audio = convert_files_to_wav(uploaded_files) #COMMENTED 
-        is_audio= is_wave_file(uploaded_files)
-        audio=uploaded_files
-        if is_audio==False:
-            st.warning(st.markdown("# PLEASE ONLY UPLOAD WAV FILES"))
-            
-            
+        is_audio = is_wav_file(uploaded_files[0])  # Check if the first uploaded file is a WAV file
+        if not is_audio:
+            st.warning("# PLEASE ONLY UPLOAD WAV FILES")
+        else:
+            audio = uploaded_files[0].getvalue()  # Load the WAV file into memory
 
 # Option to transcribe and process audio
 if st.sidebar.button("Transcribe and Process"):
