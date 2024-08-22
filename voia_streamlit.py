@@ -101,7 +101,8 @@ if st.sidebar.button("Transcribe and Process"):
 
                 # Display the transcribed text
                 st.write("### Transcribed Text")
-                st.markdown(f"**Transcription:** {text}")
+                st.markdown(f"""**Transcription:** 
+                                - {text}""")
 
                 # Extract and display the GPT response
                 with st.spinner("Extracting details..."):
