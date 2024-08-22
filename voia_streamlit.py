@@ -53,9 +53,11 @@ prompt_template = """
 
     RESPONSE FORMAT - DICTIONARY
     It should ONLY include below information:
+    - 'transcribed text': transcribed audio into ENGLISH
     - 'type of task': Identified task from TASKS,
     - 'extracted entities': Important entities,
     - 'summary': summary of what user wants to do
+    - 'detailed information' : detailed explanation what user wants to do
     
     Here is the text {text}
     """
