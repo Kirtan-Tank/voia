@@ -3,7 +3,7 @@ from openai import OpenAI
 import openai
 import json
 
-# Load API key from Streamlit secrets
+# Load API key from .env file
 openai_voia_key = st.secrets["openai_voia_key"]
 openai.api_key = openai_voia_key
 
@@ -84,12 +84,12 @@ if st.sidebar.button("Transcribe and Process"):
     if audio_files:
         progress_bar = st.progress(0)
         total_files = len(audio_files)
-        
+
         for idx, audio in enumerate(audio_files):
             # Update progress bar
             progress = (idx + 1) / total_files
             progress_bar.progress(progress)
-            
+
             # Perform transcription directly using the file object
             try:
                 with st.spinner("Transcribing audio..."):
@@ -144,7 +144,7 @@ if st.sidebar.button("Transcribe and Process"):
                     # Display the raw JSON string as text
                     st.markdown("## JSON")
                     st.text(response)
-                        
+
                 st.success("Processing complete!")
             except Exception as e:
                 st.write(f"Error processing file: {e}")
