@@ -53,11 +53,9 @@ prompt_template = """
 
     RESPONSE FORMAT - DICTIONARY
     It should ONLY include below information:
-    - 'transcribed text': transcribed audio into ENGLISH
     - 'type of task': Identified task from TASKS,
     - 'extracted entities': Important entities,
     - 'summary': summary of what user wants to do
-    - 'detailed information' : detailed explanation what user wants to do
     
     Here is the text {text}
     """
@@ -111,7 +109,7 @@ if st.sidebar.button("Transcribe and Process"):
                     st.write("### Processed Response")
 
                     # Function to display formatted markdown response
-                    def display_markdown(response, indent=0):
+                    def display_markdown(response):
                         if isinstance(response, str):
                             try:
                                 # Attempt to convert the string response to a dictionary
@@ -125,20 +123,20 @@ if st.sidebar.button("Transcribe and Process"):
                             st.warning("Unexpected response format.")
                             return
 
-                        # Display each key-value pair dynamically
+                        # Display formatted markdown response
                         for key, value in response_dict.items():
                             if isinstance(value, dict):
-                                st.markdown(f"{' ' * indent}- **{key}:**")
-                                display_markdown(value, indent + 4)  # Recursive call for nested dicts
+                                st.markdown(f"- **{key}:**")
+                                display_markdown(value)
                             elif isinstance(value, list):
-                                st.markdown(f"{' ' * indent}- **{key}:**")
+                                st.markdown(f"- **{key}:**")
                                 for item in value:
                                     if isinstance(item, dict):
-                                        display_markdown(item, indent + 4)
+                                        st.markdown(f"  - **{item.get('key', 'Item')}:** {item.get('value', '')}")
                                     else:
-                                        st.markdown(f"{' ' * (indent + 4)}- {item}")
+                                        st.markdown(f"  - {item}")
                             else:
-                                st.markdown(f"{' ' * indent}- **{key}:** {value}")
+                                st.markdown(f"- **{key}:** {value}")
 
                     # Display formatted markdown response
                     display_markdown(response)
