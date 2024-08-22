@@ -1,13 +1,10 @@
 import streamlit as st
-from openai import OpenAI
-import os
-import dotenv 
+from openai import OpenAI 
 import openai
 import json
 
 # Load API key from .env file
-dotenv.load_dotenv()
-openai_voia_key = os.getenv('OPENAI_VOIA')
+openai_voia_key = st.secrets["openai_voia_key"]
 openai.api_key = openai_voia_key
 
 # Function to get GPT response
