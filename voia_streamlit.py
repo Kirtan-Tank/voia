@@ -142,8 +142,8 @@ if st.sidebar.button("Transcribe and Process"):
                     display_markdown(response)
 
                     # Display the raw JSON string as text
-                    st.markdown("## JSON")
-                    st.text(response)
+                    # st.markdown("## JSON")
+                    # st.text(response)
 
                 st.success("Processing complete!")
             except Exception as e:
