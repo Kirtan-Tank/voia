@@ -56,6 +56,7 @@ prompt_template = """
     - 'type of task': Identified task from TASKS,
     - 'extracted entities': Important entities,
     - 'summary': summary of what user wants to do
+    - 'markdown': this whole response in markdown format
     
     Here is the text {text}
     """
