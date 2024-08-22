@@ -141,8 +141,7 @@ if st.sidebar.button("Transcribe and Process"):
                     # Display formatted markdown response
                     display_markdown(response)
 
-                    # Optionally display the raw JSON as well, if needed
-                    # if st.checkbox("Show JSON Response"):
+                    # Display the raw JSON string as text
                     st.markdown("## JSON")
                     st.text(response)
                         
