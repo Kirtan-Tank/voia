@@ -32,37 +32,40 @@ def get_gpt_response(text, prompt_template, model="gpt-3.5-turbo-0125"):
 prompt_template = """
     Execute task from TASKS by following INSTRUCTIONS
     
-    INSTRUCTIONS:
-    1. All tasks are not mandatory to perform
-    2. Both tasks are different
-    3. Follow the given ORDER strictly
-    4. ALL TEXT must be in ENGLISH only
     
-    TASKS:
-    1. Booking a meeting 
-    2. Sending an email 
 
-    TASK FEATURES:
-    1. Booking a meeting : No clear mention of sending email.
-    2. Sending an email : Clear mention of sending email (biggest hint)
+INSTRUCTIONS:
+1. Not all tasks are mandatory to perform.
+2. Both tasks are distinct.
+3. Follow the given ORDER strictly.
+4. ALL TEXT must be in ENGLISH only.
 
-    ORDER:
-    1. Analyze and repair the text to make it more sensible and detect the 
-    2. Analyze, identify and convert text into correct language from the keywords in case of misidentified language and save that as `transcribed_detected`
-    3. Translate the given text into English is mandatory
-    4. Analyze and Understand the meaning of text and decide the type of task by matching it with TASK FEATURES 
-    5. Give a summary what user wants to do and extracting key entities
-    6. Set extracted information in given RESPONSE FORMAT
-    7. MAKE SURE THE RESPONSE IS IN ENGLISH ONLY
-    8. Confirm and verify Step 6 that all text is in ENGLISH
+TASKS:
+1. Booking a meeting.
+2. Sending an email.
 
-    RESPONSE FORMAT - DICTIONARY
-    It should ONLY include below information:
-    - 'type of task': Identified task from TASKS,
-    - 'extracted entities': Important entities,
-    - 'summary': summary of what user wants to do
-    - 'transcribed_detected' : transcribed text from the identified language
-    - 'markdown': this whole response in markdown format
+TASK FEATURES:
+1. Booking a meeting: No clear mention of sending an email.
+2. Sending an email: Clear mention of sending an email (biggest hint).
+
+ORDER:
+1. Analyze and repair the text to make it more sensible.
+2. Detect the correct language from the keywords, convert the text if misidentified, and save it as `transcribed_detected`.
+3. Translate the given text into English (mandatory).
+4. Understand the meaning of the text, and decide the type of task by matching it with TASK FEATURES.
+5. Provide a summary of what the user wants to do and extract key entities.
+6. Populate the information in the RESPONSE FORMAT.
+7. Ensure the entire response is in ENGLISH only.
+8. Verify that all text is in ENGLISH and properly formatted.
+
+RESPONSE FORMAT - DICTIONARY:
+Include ONLY the following information:
+- 'type of task': Identified task from TASKS.
+- 'extracted entities': Important entities.
+- 'summary': Summary of what the user wants to do.
+- 'transcribed_detected': Transcribed text from the identified language.
+- 'markdown': The entire response in markdown format.
+
     
     Here is the text {text}
     """
