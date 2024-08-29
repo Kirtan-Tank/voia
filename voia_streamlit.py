@@ -15,7 +15,7 @@ def get_gpt_response(text, prompt_template, model="gpt-3.5-turbo-0125"):
         response = openai.chat.completions.create(
             model=model,
             messages=[
-                {"role": "system", "content": "You are a helpful assistant who is master in understanding tasks."},
+                {"role": "system", "content": "You are a helpful assistant who is master in understanding tasks and detecting languages."},
                 {"role": "user", "content": prompt}
             ]
         )
@@ -47,19 +47,21 @@ prompt_template = """
     2. Sending an email : Clear mention of sending email (biggest hint)
 
     ORDER:
-    1. Analyze and repair the text to make it more sensible 
-    2. Translate the given text into English is mandatory
-    3. Analyze and Understand the meaning of text and decide the type of task by matching it with TASK FEATURES 
-    4. Give a summary what user wants to do and extracting key entities
-    5. Set extracted information in given RESPONSE FORMAT
-    6. MAKE SURE THE RESPONSE IS IN ENGLISH ONLY
-    7. Confirm and verify Step 6 that all text is in ENGLISH
+    1. Analyze and repair the text to make it more sensible and detect the 
+    2. Analyze, identify and convert text into correct language from the keywords in case of misidentified language and save that as `transcribed_detected`
+    3. Translate the given text into English is mandatory
+    4. Analyze and Understand the meaning of text and decide the type of task by matching it with TASK FEATURES 
+    5. Give a summary what user wants to do and extracting key entities
+    6. Set extracted information in given RESPONSE FORMAT
+    7. MAKE SURE THE RESPONSE IS IN ENGLISH ONLY
+    8. Confirm and verify Step 6 that all text is in ENGLISH
 
     RESPONSE FORMAT - DICTIONARY
     It should ONLY include below information:
     - 'type of task': Identified task from TASKS,
     - 'extracted entities': Important entities,
     - 'summary': summary of what user wants to do
+    - 'transcribed_detected' : transcribed text from the identified language
     - 'markdown': this whole response in markdown format
     
     Here is the text {text}
