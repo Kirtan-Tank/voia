@@ -38,6 +38,7 @@ INSTRUCTIONS:
 1. Not all tasks are mandatory to perform.
 2. Both tasks are distinct.
 3. Follow the given ORDER strictly.
+4. Do not assume stuff, just follow the process
 4. ALL TEXT must be in ENGLISH only.
 
 TASKS:
