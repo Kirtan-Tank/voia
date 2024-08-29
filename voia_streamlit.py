@@ -39,7 +39,7 @@ INSTRUCTIONS:
 2. Both tasks are distinct.
 3. Follow the given ORDER strictly.
 4. Do not assume stuff, just follow the process
-4. ALL TEXT must be in ENGLISH only.
+4. ALL TEXT must be in ENGLISH only EXCEPT `transcribed new`
 
 TASKS:
 1. Booking a meeting.
@@ -57,8 +57,8 @@ ORDER:
 5. Understand the meaning of the text, and decide the type of task by matching it with TASK FEATURES.
 6. Provide a summary of what the user wants to do and extract key entities.
 7. Populate the information in the RESPONSE FORMAT.
-8. Ensure the entire response is in ENGLISH only.
-9. Verify that all text is in ENGLISH and properly formatted.
+8. Ensure the entire response is in ENGLISH only, except `transcribed new`.
+9. Verify that all text is in ENGLISH (except `transcribed new`) and properly formatted.
 
 RESPONSE FORMAT - DICTIONARY:
 Include ONLY the following information:
