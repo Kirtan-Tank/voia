@@ -39,8 +39,8 @@ prompt_template = """
     4. ALL TEXT must be in ENGLISH only
     
     TASKS:
-    1. Booking a meeting
-    2. Sending an email
+    1. Booking a meeting (Scheduling calls or meetings or meetups)
+    2. Sending an email (clearly mentioned to do email for query, follow-ups)
     
     ORDER:
     1. Analyze and repair the text to make it more sensible 
