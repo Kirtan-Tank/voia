@@ -64,8 +64,8 @@ Include ONLY the following information:
 - 'type of task': Identified task from TASKS.
 - 'extracted entities': Important entities.
 - 'summary': Summary of what the user wants to do.
-- 'transcribed_detected': Paste the transcribed text from the identified language.
-- 'markdown': The entire response in markdown format.
+- 'transcribed_detected': Paste the transcribed text in the identified language.
+- 'markdown': Provide response in markdown version here.
 
 NOTE: Ensure RESPONSE has all the mentioned variables. 
     Here is the text {text}
