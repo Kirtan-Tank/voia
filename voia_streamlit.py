@@ -51,7 +51,7 @@ TASK FEATURES:
 
 ORDER:
 1. Analyze and repair the text to make it more sensible.
-2. Detect the correct language from the keywords, convert the text if misidentified, and save the translated text into the correct one and save it as `transcribed_detected`.
+2. Determine the correct lanaguage from grammar, keywords and converted it to correct one and save it as `transcribed_new`.
 3. Translate the given text into English (mandatory) and use it for further operations.
 4. Understand the meaning of the text, and decide the type of task by matching it with TASK FEATURES.
 5. Provide a summary of what the user wants to do and extract key entities.
@@ -64,7 +64,7 @@ Include ONLY the following information:
 - 'type of task': Identified task from TASKS.
 - 'extracted entities': Important entities.
 - 'summary': Summary of what the user wants to do.
-- 'transcribed_detected': Paste the transcribed text in the identified language.
+- 'transcribed_new': Paste the transcribed text as saved earlier.
 - 'markdown': Provide response in markdown version here.
 
 NOTE: Ensure RESPONSE has all the mentioned variables. 
