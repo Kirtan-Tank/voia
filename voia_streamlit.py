@@ -50,8 +50,8 @@ TASK FEATURES:
 
 ORDER:
 1. Analyze and repair the text to make it more sensible.
-2. Detect the correct language from the keywords, convert the text if misidentified, and save it as `transcribed_detected`.
-3. Translate the given text into English (mandatory).
+2. Detect the correct language from the keywords, convert the text if misidentified, and save the translated text into the correct one and save it as `transcribed_detected`.
+3. Translate the given text into English (mandatory) and use it for further operations.
 4. Understand the meaning of the text, and decide the type of task by matching it with TASK FEATURES.
 5. Provide a summary of what the user wants to do and extract key entities.
 6. Populate the information in the RESPONSE FORMAT.
@@ -105,7 +105,7 @@ if st.sidebar.button("Transcribe and Process"):
                 with st.spinner("Transcribing audio..."):
                     transcription = client.audio.transcriptions.create(
                         model="whisper-1", 
-                        #temperature=0.2,
+                        temperature=0.2,
                         file=audio,  # Directly pass the file object
                     )
                 text = transcription.text
