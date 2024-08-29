@@ -65,7 +65,6 @@ Include ONLY the following information:
 - 'extracted entities': Important entities.
 - 'details': Detailed description of what the user wants to do.
 - 'transcribed_new': Paste the text as saved earlier as in STEP 2 of ORDER.
-- 'markdown': Provide response in markdown version here.
 
 NOTE: Ensure RESPONSE has all the mentioned variables. 
     Here is the text {text}
