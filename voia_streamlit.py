@@ -51,8 +51,8 @@ TASK FEATURES:
 
 ORDER:
 1. Analyze and repair the text to make it more sensible.
-2. Determine the correct lanaguage from grammar, keywords and sentence structure. [for example, "मारे मीटिंग करवी छे आफती काले, सांजे 9 वागे, मीटिंग जरूरी छे बहु" looks like Hindi, but actually is Gujarati]
-3. If the language is misidentified, convert it to correct one and save it as `transcribed_new`
+2. Many times, language is faslely identified, analyze the sentence and determine the correct langauge.
+3. If the language is misidentified, convert it to correct langauge and save the translated text as `transcribed_new`
 4. Translate the given text into English (mandatory) and use it for further operations.
 5. Understand the meaning of the text, and decide the type of task by matching it with TASK FEATURES.
 6. Provide a summary of what the user wants to do and extract key entities.
@@ -65,7 +65,7 @@ Include ONLY the following information:
 - 'type of task': Identified task from TASKS.
 - 'extracted entities': Important entities.
 - 'details': Detailed description of what the user wants to do.
-- 'transcribed_new': Paste the text as saved earlier as in STEP 3 of ORDER.
+- 'transcribed_new': Paste the translated text as saved earlier as in STEP 3 of ORDER.
 
 NOTE: Ensure RESPONSE has all the mentioned variables. 
     Here is the text {text}
