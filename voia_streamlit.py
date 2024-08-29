@@ -43,13 +43,13 @@ prompt_template = """
     2. Sending an email 
 
     TASK FEATURES:
-    1. Booking a meeting : No clear mention of sending email. Biggest hints - Clear mention of scheduling call, meeting, meet-ups, discussions. Also date, day or mode of communication will be mentioned.
-    2. Sending an email : Clear mention of sending email (biggest hint), hints like query, follow-up about a topic, mention of email ids.
+    1. Booking a meeting : No clear mention of sending email.
+    2. Sending an email : Clear mention of sending email (biggest hint)
 
     ORDER:
     1. Analyze and repair the text to make it more sensible 
     2. Translate the given text into English is mandatory
-    3. Analyze and Understand the meaning of text and decide the type of task by using TASK FEATURES 
+    3. Analyze and Understand the meaning of text and decide the type of task by matching it with TASK FEATURES 
     4. Give a summary what user wants to do and extracting key entities
     5. Set extracted information in given RESPONSE FORMAT
     6. MAKE SURE THE RESPONSE IS IN ENGLISH ONLY
