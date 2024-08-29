@@ -105,7 +105,7 @@ if st.sidebar.button("Transcribe and Process"):
                 with st.spinner("Transcribing audio..."):
                     transcription = client.audio.transcriptions.create(
                         model="whisper-1", 
-                        temperature=0.2,
+                        #temperature=0.2,
                         file=audio,  # Directly pass the file object
                     )
                 text = transcription.text
