@@ -54,7 +54,7 @@ ORDER:
 2. Many times, language is faslely identified, analyze the sentence and determine the correct langauge.
 3. If the language is misidentified, convert it to correct langauge and save the translated text as `transcribed_new`
 4. Translate the given text into English (mandatory) and use it for further operations.
-5. Understand the meaning of the text, and decide the type of task by matching it with TASK FEATURES.
+5. Understand the meaning of the text, and decide the type of task by matching it with TASK FEATURES [NO MISTAKES HERE], BLINDLY FOLLOW.
 6. Provide a summary of what the user wants to do and extract key entities.
 7. Populate the information in the RESPONSE FORMAT.
 8. Ensure the entire response is in ENGLISH only, except `transcribed new`.
