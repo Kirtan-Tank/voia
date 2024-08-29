@@ -63,8 +63,8 @@ RESPONSE FORMAT - DICTIONARY:
 Include ONLY the following information:
 - 'type of task': Identified task from TASKS.
 - 'extracted entities': Important entities.
-- 'summary': Summary of what the user wants to do.
-- 'transcribed_new': Paste the transcribed text as saved earlier.
+- 'details': Detailed description of what the user wants to do.
+- 'transcribed_new': Paste the text as saved earlier as in STEP 2 of ORDER.
 - 'markdown': Provide response in markdown version here.
 
 NOTE: Ensure RESPONSE has all the mentioned variables. 
