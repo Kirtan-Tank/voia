@@ -31,43 +31,34 @@ def get_gpt_response(text, prompt_template, model="gpt-3.5-turbo-0125"):
 # Define prompt template
 prompt_template = """
     Execute task from TASKS by following INSTRUCTIONS
-    
-    
 
 INSTRUCTIONS:
-1. Not all tasks are mandatory to perform.
-2. Both tasks are distinct.
-3. Follow the given ORDER strictly.
-4. Do not assume stuff, just follow the process
-4. ALL TEXT must be in ENGLISH only EXCEPT `transcribed new`
-
-TASKS:
-1. Booking a meeting.
-2. Sending an email.
-
-TASK FEATURES:
-1. Booking a meeting: No clear mention of sending an email.
-2. Sending an email: Clear mention of sending an email (biggest hint).
+- Ensure all identified text is in ENGLISH only except for transcribed_text.
+- The audio may contain a mix of Hindi, Gujarati, English, Hinglish, or Gujlish.
+- Follow the ORDER strictly for processing.
+- Handle misclassification of language carefully; detect and repair it.
+- Focus on identifying the intent correctly for task classification.
 
 ORDER:
-1. Analyze and repair the text to make it more sensible.
-2. Many times, language is faslely identified, analyze the sentence and determine the correct langauge.
-3. If the language is misidentified, convert it to correct langauge and save the translated text as `transcribed_new`
-4. Translate the given text into English (mandatory) and use it for further operations.
-5. Understand the meaning of the text, and decide the type of task by matching it with TASK FEATURES [NO MISTAKES HERE], BLINDLY FOLLOW.
-6. Provide a summary of what the user wants to do and extract key entities.
-7. Populate the information in the RESPONSE FORMAT.
-8. Ensure the entire response is in ENGLISH only, except `transcribed new`.
-9. Verify that all text is in ENGLISH (except `transcribed new`) and properly formatted.
+1. Analyze and repair the transcribed text, fixing grammatical errors and making it more coherent.
+2. Identify the correct language: If the language is incorrectly identified, detect the true language by analyzing sentence structure and keywords. Convert the transcription to the correct language and store it as transcribed_text.
+3. Translate to English: Ensure the transcription is translated into English for further steps.
+4. Task classification: Based on the provided text, accurately classify the task as either "Booking a meeting" or "Sending an email."
+5. Extract key entities: Extract important details such as names, locations, times, and other relevant entities from the text.
+6. Generate detailed description: Summarize the user's intent, describing what the user aims to do with all relevant details included.
+7. Populate RESPONSE FORMAT: Ensure the final output is correctly formatted as per the RESPONSE FORMAT.
+8. Ensure correctness: Verify that the entire response, except transcribed_text, is in English and properly formatted.
+
+TASKS:
+- Booking a meeting: There is no clear mention of sending an email.
+ -Sending an email: A clear mention of sending an email is the biggest indicator.
 
 RESPONSE FORMAT - DICTIONARY:
-Include ONLY the following information:
-- 'type of task': Identified task from TASKS.
-- 'extracted entities': Important entities.
-- 'details': Detailed description of what the user wants to do.
-- 'transcribed_new': Paste the translated text as saved earlier as in STEP 3 of ORDER.
+- 'type_of_task': Identified task from TASKS.
+- 'important_details': Key entities extracted from the text (e.g., recipient name, location, time).
+- 'detailed_description': A detailed summary of what the user wants to do.
+- 'transcribed_text': The corrected and repaired transcription in the originally detected language (if different from English).
 
-NOTE: Ensure RESPONSE has all the mentioned variables. 
     Here is the text {text}
     """
 
