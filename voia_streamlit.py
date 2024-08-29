@@ -51,20 +51,21 @@ TASK FEATURES:
 
 ORDER:
 1. Analyze and repair the text to make it more sensible.
-2. Determine the correct lanaguage from grammar, keywords and converted it to correct one and save it as `transcribed_new`.
-3. Translate the given text into English (mandatory) and use it for further operations.
-4. Understand the meaning of the text, and decide the type of task by matching it with TASK FEATURES.
-5. Provide a summary of what the user wants to do and extract key entities.
-6. Populate the information in the RESPONSE FORMAT.
-7. Ensure the entire response is in ENGLISH only.
-8. Verify that all text is in ENGLISH and properly formatted.
+2. Determine the correct lanaguage from grammar, keywords and sentence structure.
+3. If the language is misidentified, convert it to correct one and save it as `transcribed_new`
+4. Translate the given text into English (mandatory) and use it for further operations.
+5. Understand the meaning of the text, and decide the type of task by matching it with TASK FEATURES.
+6. Provide a summary of what the user wants to do and extract key entities.
+7. Populate the information in the RESPONSE FORMAT.
+8. Ensure the entire response is in ENGLISH only.
+9. Verify that all text is in ENGLISH and properly formatted.
 
 RESPONSE FORMAT - DICTIONARY:
 Include ONLY the following information:
 - 'type of task': Identified task from TASKS.
 - 'extracted entities': Important entities.
 - 'details': Detailed description of what the user wants to do.
-- 'transcribed_new': Paste the text as saved earlier as in STEP 2 of ORDER.
+- 'transcribed_new': Paste the text as saved earlier as in STEP 3 of ORDER.
 
 NOTE: Ensure RESPONSE has all the mentioned variables. 
     Here is the text {text}
