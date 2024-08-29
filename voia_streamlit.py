@@ -45,7 +45,7 @@ prompt_template = """
     ORDER:
     1. Analyze and repair the text to make it more sensible 
     2. Translate the given text into English is mandatory
-    3. Analyze the text and decide the type of task by using keywords
+    3. Analyze the text and decide the type of task by using keywords and understanding meaning properly
     4. Give a summary what user wants to do and extracting key entities
     5. Set extracted information in given RESPONSE FORMAT
     6. MAKE SURE THE RESPONSE IS IN ENGLISH ONLY
