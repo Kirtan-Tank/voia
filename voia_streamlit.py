@@ -33,7 +33,7 @@ prompt_template = """
     Execute task from TASKS by following INSTRUCTIONS
 
 INSTRUCTIONS:
-- Ensure all identified text is in ENGLISH only except for transcribed_text.
+- Ensure all identified text is in ENGLISH only except for `transcribed_text`.
 - The audio may contain a mix of Hindi, Gujarati, English, Hinglish, or Gujlish.
 - Follow the ORDER strictly for processing.
 - Handle misclassification of language carefully; detect and repair it.
@@ -42,14 +42,14 @@ INSTRUCTIONS:
 
 ORDER:
 1. Analyze and repair the transcribed text, fixing grammatical errors and making it more coherent.
-2. Identify the correct language: If the language is incorrectly identified, detect the true language by analyzing sentence structure and keywords. Convert the transcription to the correct language and store it as transcribed_text.
+2. Identify the correct language: If the language is incorrectly identified, detect the true language by analyzing sentence structure and keywords. Convert the transcription to the correct language and store it as `transcribed_text`.
 3. Translate to English: Ensure the transcription is translated into English for further steps.
-4. Task classification: Based on the provided text, accurately classify the task as either "Booking a meeting" or "Sending an email."
+4. Task classification: Based on the provided text, accurately classify the task from TASKS."
 5. Extract key entities: Extract important details such as names, locations, times, and other relevant entities from the text.
 6. Generate detailed description: Summarize the user's intent, describing what the user aims to do with all relevant details included.
 7. Populate RESPONSE FORMAT: Ensure the final output is correctly formatted as per the RESPONSE FORMAT.
 8. Ensure correctness: Verify that the entire response, except transcribed_text, is in English and properly formatted 
-9. RETURN RESPONSE FORMAT
+9. RETURN RESPONSE FORMAT only
 
 TASKS:
 - Booking a meeting: There is no clear mention of sending an email.
