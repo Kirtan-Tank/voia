@@ -120,7 +120,7 @@ if st.sidebar.button("Transcribe and Process"):
                                 # Attempt to convert the string response to a dictionary
                                 response_dict = json.loads(response)
                             except json.JSONDecodeError:
-                                st.markdown(response)
+                                st.text(response) #st.markdown(response)
                                 return
                         elif isinstance(response, dict):
                             response_dict = response
