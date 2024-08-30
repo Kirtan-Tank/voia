@@ -49,7 +49,7 @@ ORDER:
 6. Generate detailed description: Summarize the user's intent, describing what the user aims to do with all relevant details included.
 7. Populate RESPONSE FORMAT: Ensure the final output is correctly formatted as per the RESPONSE FORMAT.
 8. Ensure correctness: Verify that the entire response, except transcribed_text, is in English and properly formatted 
-9. RETURN RESPONSE as dictionary
+9. RETURN RESPONSE as dictionary and translate to ENGLISH LANGUAGE ONLY
 
 TASKS:
 - Booking a meeting: There is no clear mention of sending an email.
