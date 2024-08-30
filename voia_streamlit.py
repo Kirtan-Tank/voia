@@ -3,7 +3,7 @@ from openai import OpenAI
 import openai
 import json
 
-# Load API key from .env file
+# Load API key from Streamlit secrets
 openai_voia_key = st.secrets["openai_voia_key"]
 openai.api_key = openai_voia_key
 
@@ -53,7 +53,7 @@ ORDER:
 
 TASKS:
 - Booking a meeting: There is no clear mention of sending an email.
- -Sending an email: A clear mention of sending an email is the biggest indicator.
+- Sending an email: A clear mention of sending an email is the biggest indicator.
 
 RESPONSE (DICTIONARY):
 - 'type_of_task': Identified task from TASKS.
@@ -120,7 +120,7 @@ if st.sidebar.button("Transcribe and Process"):
                                 # Attempt to convert the string response to a dictionary
                                 response_dict = json.loads(response)
                             except json.JSONDecodeError:
-                                st.text(response) #st.markdown(response)
+                                st.text(response) 
                                 return
                         elif isinstance(response, dict):
                             response_dict = response
@@ -128,27 +128,21 @@ if st.sidebar.button("Transcribe and Process"):
                             st.warning("Unexpected response format.")
                             return
 
-                        # Display formatted markdown response
-                        for key, value in response_dict.items():
-                            if isinstance(value, dict):
-                                st.markdown(f"- **{key}:**")
-                                display_markdown(value)
-                            elif isinstance(value, list):
-                                st.markdown(f"- **{key}:**")
-                                for item in value:
-                                    if isinstance(item, dict):
-                                        st.text(f"  - **{item.get('key', 'Item')}:** {item.get('value', '')}")
-                                    else:
-                                        st.text(f"  - {item}")
-                            else:
-                                st.textf"- **{key}:** {value}")
+                        # Display the response in a more organized way
+                        st.markdown(f"**Type of Task:** {response_dict.get('type_of_task', 'N/A')}")
+                        st.markdown(f"**Important Details:**")
+                        important_details = response_dict.get('important_details', [])
+                        if important_details:
+                            for detail in important_details:
+                                st.markdown(f"- {detail}")
+                        else:
+                            st.markdown("- No important details found.")
+
+                        st.markdown(f"**Detailed Description:** {response_dict.get('detailed_description', 'N/A')}")
+                        st.markdown(f"**Transcribed Text:** {response_dict.get('transcribed_text', 'N/A')}")
 
                     # Display formatted markdown response
                     display_markdown(response)
-
-                    # Display the raw JSON string as text
-                    # st.markdown("## JSON")
-                    # st.text(response)
 
                 st.success("Processing complete!")
             except Exception as e:
