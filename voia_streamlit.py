@@ -137,11 +137,11 @@ if st.sidebar.button("Transcribe and Process"):
                                 st.markdown(f"- **{key}:**")
                                 for item in value:
                                     if isinstance(item, dict):
-                                        st.markdown(f"  - **{item.get('key', 'Item')}:** {item.get('value', '')}")
+                                        st.text(f"  - **{item.get('key', 'Item')}:** {item.get('value', '')}")
                                     else:
-                                        st.markdown(f"  - {item}")
+                                        st.text(f"  - {item}")
                             else:
-                                st.markdown(f"- **{key}:** {value}")
+                                st.textf"- **{key}:** {value}")
 
                     # Display formatted markdown response
                     display_markdown(response)
