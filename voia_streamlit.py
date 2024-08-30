@@ -55,7 +55,7 @@ TASKS:
 - Booking a meeting: There is no clear mention of sending an email.
 - Sending an email: A clear mention of sending an email is the biggest indicator.
 
-RESPONSE (DICTIONARY):
+RESPONSE (DICTIONARY- ENGLISH LANGUAGE ONLY):
 - 'type_of_task': Identified task from TASKS.
 - 'important_details': Key entities extracted from the text (e.g., recipient name, location, time).
 - 'detailed_description': A detailed summary of what the user wants to do.
