@@ -38,7 +38,7 @@ INSTRUCTIONS:
 - Follow the ORDER strictly for processing.
 - Handle misclassification of language carefully; detect and repair it.
 - Focus on identifying the intent correctly for task classification.
-- The final output must be strictly the RESPONSE FORMAT
+- The final output must be strictly the final RESPONSE in the givrn FORMAT
 
 ORDER:
 1. Analyze and repair the transcribed text, fixing grammatical errors and making it more coherent.
@@ -55,7 +55,7 @@ TASKS:
 - Booking a meeting: There is no clear mention of sending an email.
  -Sending an email: A clear mention of sending an email is the biggest indicator.
 
-RESPONSE FORMAT - DICTIONARY:
+RESPONSE (FORMAT - DICTIONARY):
 - 'type_of_task': Identified task from TASKS.
 - 'important_details': Key entities extracted from the text (e.g., recipient name, location, time).
 - 'detailed_description': A detailed summary of what the user wants to do.
