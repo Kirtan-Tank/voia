@@ -52,8 +52,8 @@ ORDER:
 9. RETURN RESPONSE as dictionary and translate to ENGLISH LANGUAGE ONLY
 
 TASKS:
-- Booking a meeting: There is no clear mention of sending an email.
-- Sending an email: A clear mention of sending an email is the biggest indicator.
+- Booking a meeting: There is NO CLEAR mention of `sending an email`.
+- Sending an email: A CLEAR MENTION of sending an email is the BIGGEST indicator.
 
 RESPONSE (DICTIONARY- ENGLISH LANGUAGE ONLY):
 - 'type_of_task': Identified task from TASKS.
