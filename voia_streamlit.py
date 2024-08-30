@@ -38,6 +38,7 @@ INSTRUCTIONS:
 - Follow the ORDER strictly for processing.
 - Handle misclassification of language carefully; detect and repair it.
 - Focus on identifying the intent correctly for task classification.
+- The final output must be strictly the RESPONSE FORMAT
 
 ORDER:
 1. Analyze and repair the transcribed text, fixing grammatical errors and making it more coherent.
@@ -47,7 +48,8 @@ ORDER:
 5. Extract key entities: Extract important details such as names, locations, times, and other relevant entities from the text.
 6. Generate detailed description: Summarize the user's intent, describing what the user aims to do with all relevant details included.
 7. Populate RESPONSE FORMAT: Ensure the final output is correctly formatted as per the RESPONSE FORMAT.
-8. Ensure correctness: Verify that the entire response, except transcribed_text, is in English and properly formatted.
+8. Ensure correctness: Verify that the entire response, except transcribed_text, is in English and properly formatted 
+9. RETURN RESPONSE FORMAT
 
 TASKS:
 - Booking a meeting: There is no clear mention of sending an email.
