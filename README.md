@@ -16,7 +16,7 @@ It uses **OpenAI Whisper** for transcription and **GPT (Chat Completions API)** 
   5. Extracts important entities (names, locations, times, etc.).  
   6. Produces a structured JSON-like response.  
 - 📊 **Interactive UI**: Built with Streamlit for simple and intuitive interaction.  
-
+- 💾 **Option to Save Recordings** for later use.
 
 ---
 
