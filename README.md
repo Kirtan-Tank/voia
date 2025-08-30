@@ -1,4 +1,4 @@
-# 🎵 VOIA – Voice-to-Intent Assistant  
+# 🎵 VOIA – Voice Operated Intelligent Assistant  
 
 VOIA is a **Streamlit-based voice assistant** that transcribes multilingual audio (Hindi, Gujarati, English, Hinglish, Gujlish) and converts it into **structured tasks** (e.g., booking a meeting or sending an email).  
 It uses **OpenAI Whisper** for transcription and **GPT (Chat Completions API)** for language correction, intent classification, and entity extraction.  
