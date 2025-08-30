@@ -54,7 +54,7 @@ openai_voia_key = "your_openai_api_key"
 ```bash
 streamlit run app.py
 ```
-###🎯 Example Workflow
+### 🎯 Example Workflow
 
 - Upload or record an audio file.
 - VOIA transcribes and repairs the transcription.
