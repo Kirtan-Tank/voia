@@ -47,12 +47,13 @@ pip install -r requirements.txt
 
 ### 3. Add Streamlit Secrets
 Create .streamlit/secrets.toml and add your OpenAI key:
-
+```bash
 openai_voia_key = "your_openai_api_key"
-
+```
 ### 4. Run the app
+```bash
 streamlit run app.py
-
+```
 ###🎯 Example Workflow
 
 - Upload or record an audio file.
